@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>学习HTML</title>
+
+    <style>
+        div.simple {
+            color: #fff;
+            background-color: #000;
+            padding: 20px;
+        }
+
+        div.abbr {
+            color: yellow;
+            background-color: lightblue;
+            padding: 10px;
+            font-style: italic;
+        }
+    </style>
+
+
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css"/>
+</head>
+<body>
+<div>
+    <label for="name">
+        <input type="text" id="name" maxlength="32"/>
+    </label>
+</div>
+
+<div>
+    <p style="color: #0ff;background-color: #2b542c">生活还是炽热点好!</p>
+</div>
+
+<div>
+        <pre>
+        <code>
+            public static void main(String[] args){
+                System.out.println("Hello world.");
+            }
+        </code>
+        </pre>
+</div>
+
+<div>
+    <p><strong>Einstein wrote: <var>E</var> = <var>m</var><var>c<sup>2</sup></var></strong></p>
+</div>
+
+<!-- comments -->
+
+<div>
+    <p style="color: #fab; background-color: #2aabd2; font-size: 200%;">我手底下一小兄弟太不靠谱了！</p>
+</div>
+
+<div>
+    <a href="http://www.baidu.com/" target="_blank">Blank</a>
+    <a href="http://www.baidu.com/" target="_self">Self</a>
+    <a href="http://www.baidu.com/" target="_parent">Parent</a>
+    <a href="http://www.baidu.com/" target="_top">Top</a>
+</div>
+
+<div>
+    <img src="http://imgsrc.baidu.com/baike/pic/item/b21bb051f81986187aa0646a48ed2e738ad4e67d.jpg" alt="霍建华"
+         width="256" height="384"/>
+
+    <a href="http://www.baidu.com">
+        <img src="http://imgsrc.baidu.com/baike/pic/item/b21bb051f81986187aa0646a48ed2e738ad4e67d.jpg" alt="霍建华"
+             width="256" height="384"/>
+    </a>
+</div>
+
+
+<div>
+    <table align="center" border="1px">
+        <thead>
+        <td>名字</td>
+        <td>编码</td>
+        <td>创建时间</td>
+        <td>操作</td>
+        </thead>
+
+        <tr>
+            <td>孙义威</td>
+            <td>43433</td>
+            <td>2016-10-18 23:00:00</td>
+            <td><a href="http://www.baidu.com/">跳转</a></td>
+        </tr>
+
+        <tr>
+            <td>冯俐莎</td>
+            <td>43433</td>
+            <td>2016-10-18 23:00:00</td>
+            <td><a href="http://www.baidu.com/">跳转</a></td>
+        </tr>
+    </table>
+</div>
+
+
+<div>
+    <ul type="square">
+        <li>红色</li>
+        <li>黄色</li>
+        <li>绿色</li>
+    </ul>
+</div>
+
+<div>
+    <ol type="1">
+        <li>语文</li>
+        <li>数学</li>
+        <li>英语</li>
+    </ol>
+</div>
+
+<div class="abbr">
+    <dl>
+        <dt>WTO</dt>
+        <dd>World Trade Organization</dd>
+    </dl>
+
+    <dl>
+        <dt>VIP</dt>
+        <dd>Very Important Person</dd>
+    </dl>
+
+    <dl>
+        <dt>MVP</dt>
+        <dd>Most Valuable Player</dd>
+    </dl>
+</div>
+
+<div class="simple">
+    <h2>Hello world</h2>
+    <p>I have a dream! when i was a little kid, i have a dream, a dream which </p>
+</div>
+
+<div>
+    <iframe src="http://www.baidu.com/" style="border: 1px;"></iframe>
+</div>
+
+<div>
+    <input type="button" value="Click me to show date and time."
+           onclick="javascript: document.getElementById('demo').innerHTML='<p>' + new Date() + ';</p>';"/>
+    <p id="demo"></p>
+</div>
+
+<div>
+    <h1>My First Javascript</h1>
+    <input type="button" value="Click me to display date and time" onclick="showDate();"/>
+    <p id="date"></p>
+</div>
+
+<div>
+    <h1>My Second Javascript</h1>
+    <input type="button" value="Click me to show picture" onclick="showPic();"/> <br/>
+    <img id="demoImg" src=""/>
+</div>
+
+<script>
+    function showDate() {
+        document.getElementById("date").innerHTML = new Date().toString();
+    }
+
+    function showPic() {
+        document.getElementById("demoImg").setAttribute("src", "../images/1.jpeg");
+    }
+</script>
+</body>
+</html>
