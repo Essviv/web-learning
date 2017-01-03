@@ -1,0 +1,36 @@
+body {
+    background-color: #eaf3da;
+    color: #1f7e9a;
+    font-family: sans-serif;
+}
+
+p {
+    background-color: transparent;
+    border: 1px solid #2b2d2f;
+}
+
+h1, h2 {
+    font-family: sans-serif;
+    color: gray;
+}
+
+h2 {
+    border-bottom: 1px solid black;
+}
+
+h2.blue{
+    color: blue;
+}
+
+h2.green{
+    color:green;
+}
+
+h2.red{
+    color:red;
+}
+
+p.em{
+    background-color: #00bcd4;
+    color: green;
+}
