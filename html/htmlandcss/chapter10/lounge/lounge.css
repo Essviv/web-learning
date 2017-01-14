@@ -1,0 +1,79 @@
+body {
+    font-size: small;
+    font-family: Verdana, Helvetica, Arial, sans-serif;
+    line-height: 1.6em;
+}
+
+h1, h2 {
+    color: #007e7e;
+}
+
+h1 {
+    font-size: 150%;
+}
+
+h2 {
+    font-size: 130%;
+}
+
+#guarantee {
+    line-height: 1.9em;
+    font-style: italic;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    color: #444444;
+    border: white 1px dashed;
+    background: #a7cece no-repeat top left url(images/background.gif);
+    padding: 25px 25px 25px 80px;
+    margin: 30px 250px 30px 30px;
+}
+
+#elixirs {
+    border: thin solid #007e7e;
+    padding: 0px 20px 20px 20px;
+    width: 200px;
+    text-align: center;
+    margin-left: 20px;
+    background: url(images/background.gif) repeat-x;
+    line-height: 1;
+    float: right;
+}
+
+#elixirs h2 {
+    color: black;
+}
+
+#elixirs h3 {
+    color: #d12c47;
+}
+
+p + h3 {
+    color: red;
+}
+
+.cd {
+    font-style: italic;
+}
+
+.artist {
+    font-weight: bold;
+}
+
+#elixirs a:link {
+    color: blue;
+}
+
+#elixirs a:visited {
+    color: purple;
+}
+
+#elixirs a:hover {
+    background-color: #f88396;
+    color: red;
+}
+
+#footer{
+    font-size: 50%;
+    text-align: center;
+    line-height: normal;
+    margin-top: 30px;
+}

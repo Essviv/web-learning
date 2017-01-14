@@ -1,0 +1,28 @@
+body {
+    font-size: small;
+    font-family: Verdana, Helvetica, Arail, sans-serif;
+    line-height: 1.6em;
+}
+
+h1, h2 {
+    color: #007e7e;
+}
+
+h1 {
+    font-size: 150%;
+}
+
+h2 {
+    font-size: 1.3em;
+}
+
+#standout {
+    border: 1px dashed white;
+    padding: 25px 25px 25px 80px;
+    margin: 30px 250px 30px 30px;
+    font-style: italic;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    color: #444;
+    line-height: 1.9em;
+    background: #a7cece url(chapter9/images/background.gif) no-repeat left top;
+}
