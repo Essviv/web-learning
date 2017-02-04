@@ -198,3 +198,16 @@ function multiplier(n) {
 
 var twice = multiplier(2);
 console.log(twice(5));
+
+
+
+//测试高阶函数
+function operator(func, a, b) {
+    return func(a, b);
+}
+
+console.log(operator(function (a, b) {
+    return a - b;
+}, 5, 10));
+
+
