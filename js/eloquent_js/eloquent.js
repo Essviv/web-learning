@@ -112,29 +112,89 @@ while (stars.length < 7) {
 }
 
 //练习2
-for(var i = 0; i <= 100; i++){
-    if(i % 3 == 0){
+for (var i = 0; i <= 100; i++) {
+    if (i % 3 == 0) {
         console.log('Fizz');
-    }else if (i % 5 == 0){
+    } else if (i % 5 == 0) {
         console.log('Buzz');
-    }else if(i % 15 == 0){
+    } else if (i % 15 == 0) {
         console.log('FizzBuzz');
-    }else{
+    } else {
         console.log(i);
     }
 }
 
 //练习3
-for(var row = 0; row < 8; row++){
+for (var row = 0; row < 8; row++) {
     var result = '';
-    for(var col = 0; col < 8; col++){
-        if((row + col) % 2){
-            result+='o';
-        }else{
-            result+='*';
+    for (var col = 0; col < 8; col++) {
+        if ((row + col) % 2) {
+            result += 'o';
+        } else {
+            result += '*';
         }
     }
 
     console.log(result);
 }
 
+//chapter 3
+//测试子模块1
+var sub = {
+    a: function () {
+        return "sub_a";
+    },
+
+    b: function () {
+        return "sub_b";
+    }
+};
+
+console.log(sub.a());
+
+//测试子模块2
+var math = function () {
+    var result = {
+        add: function (a, b) {
+            return a + b;
+        },
+
+        sub: function (a, b) {
+            return a - b;
+        }
+    };
+    return result;
+};
+
+console.log(math().add(1, 3));
+console.log(math().sub(1, 3));
+
+//测试return
+console.log(function () {
+    return;
+}());
+
+
+//测试闭包
+function wrapValue(n) {
+    var localValue = n;
+    return function () {
+        return localValue;
+    }
+}
+
+var wrap1 = wrapValue(1);
+var wrap2 = wrapValue(2);
+
+console.log(wrap1());
+console.log(wrap2());
+
+//测试闭包2
+function multiplier(n) {
+    return function(m) {
+        return m * n;
+    }
+}
+
+var twice = multiplier(2);
+console.log(twice(5));
