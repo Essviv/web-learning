@@ -324,7 +324,7 @@ function range(start, end, step) {
         for (var i = start; i <= end; i += step) {
             arr.push(i);
         }
-    }else{
+    } else {
         for (var i = start; i >= end; i += step) {
             arr.push(i);
         }
@@ -346,45 +346,45 @@ function sum(arr) {
 console.log(sum(range(10, 1, -1)));
 
 //反转数组
-function reverse(arr){
+function reverse(arr) {
     var length = arr.length;
     var newArr = [];
 
-    for(var i = length - 1; i >= 0; i--){
-       newArr.push(arr[i]);
+    for (var i = length - 1; i >= 0; i--) {
+        newArr.push(arr[i]);
     }
 
     return newArr;
 }
 
-function reverseInPlace(arr){
+function reverseInPlace(arr) {
     var length = arr.length;
-    for(var i = 0; i <= length / 2; i++){
+    for (var i = 0; i <= length / 2; i++) {
         swap(arr, i, length - 1 - i);
     }
 }
 
-function swap(arr, from, to){
+function swap(arr, from, to) {
     var tmp = arr[from];
     arr[from] = arr[to];
     arr[to] = tmp;
 }
 
-function randArr(){
+function randArr() {
     var arr = [];
     var length = randInt(10) + 3; //at least 3
-    for(var i = 0; i < length; i++){
+    for (var i = 0; i < length; i++) {
         arr.push(randInt(10));
     }
 
     return arr;
 }
 
-function randInt(max){
+function randInt(max) {
     return Math.floor(Math.random() * max);
 }
 
-function printArr(arr){
+function printArr(arr) {
     console.log(arr.join(', '));
 }
 
@@ -397,3 +397,261 @@ printArr(reverseArr);
 
 reverseInPlace(oriArr);
 printArr(oriArr);
+
+//chapter 4
+//高阶函数
+function forEach(arr, func) {
+    for (var i = 0; i < arr.length; i++) {
+        func(arr[i]);
+    }
+}
+
+forEach(oriArr, function (item) {
+    console.log(item);
+});
+
+var sum = 0;
+forEach(oriArr, function (item) {
+    sum += item;
+});
+console.log(sum);
+
+var result = '';
+forEach(oriArr, function (item) {
+    result += item;
+});
+console.log(result);
+
+//高阶函数2
+function greaterThan(m) {
+    return function (n) {
+        return n > m;
+    }
+}
+
+var f = greaterThan(10);
+console.log(f(3));
+console.log(f(13));
+
+//高阶函数3
+function noisy(f) {
+    return function (arg) {
+        console.log("Calling with args: ", arg);
+        var val = f(arg);
+        console.log("called with ", arg, " - got: ", val);
+        return val;
+    }
+}
+
+function sayHello(name) {
+    return 'hello, ' + name;
+}
+
+noisy(sayHello)('sunyiwei');
+
+//高阶函数4
+function unless(test, then) {
+    if (test) {
+        then();
+    }
+}
+
+unless(0 == 0, function () {
+    console.log("TRUE")
+});
+
+function duplicate(times, func) {
+    for (var i = 0; i < times; i++) {
+        func(i);
+    }
+}
+
+duplicate(10, function (index) {
+    unless(index % 2 == 0, function () {
+        console.log(index + ' is even!');
+    })
+});
+
+//测试高阶函数时的arguments参数
+function outer(f) {
+    var outerArgs = arguments;
+    console.log(outerArgs);
+
+    return function () {
+        var innerArgs = arguments;
+        console.log(innerArgs);
+    }
+}
+
+outer(function () {
+
+})();
+
+function forEach2(arr, f) {
+    for (var i = 0; i < arr.length; i++) {
+        var obj = arr[i];
+        f(obj);
+    }
+}
+
+forEach2([2, 3, 4, 5], function () {
+    console.log(arguments[0]);
+});
+
+var obj = {};
+obj.name = 'sunyiwei';
+obj.age = 27;
+obj.gender = 'M';
+
+var objStr = JSON.stringify(obj);
+console.log(objStr);
+
+obj = JSON.parse(objStr);
+console.log(obj.age);
+console.log(typeof obj);
+
+function filter(arr, test) {
+    var newArr = [];
+    for (var i = 0; i < arr.length; i++) {
+        var obj = arr[i];
+        if (test(obj)) {
+            newArr.push(obj);
+        }
+    }
+
+    return newArr;
+}
+
+
+var ages = [23, 24, 25, 27, 29, 30, 31, 35];
+var filteredAges = filter(ages, function (age) {
+    return age >= 25 && age <= 30;
+});
+console.log(filteredAges.join(", "));
+
+function map(arr, map) {
+    var newArr = [];
+    for (var i = 0; i < arr.length; i++) {
+        var obj = arr[i];
+        newArr.push(map(obj));
+    }
+
+    return newArr;
+}
+
+var objs = [
+    {name: 'sunyiwei', age: 27},
+    {name: 'Json', age: 30},
+    {name: 'Cavin', age: 31},
+    {name: 'Jetty', age: 37},
+    {name: 'essviv', age: 25},
+    {name: 'patrick', age: 24},
+    {name: 'Lisa', age: 23},
+    {name: 'God', age: 2000}
+];
+var mapArr = map(objs, function (obj) {
+    return obj.name;
+});
+
+console.log(mapArr.join(", "))
+
+function reduce(arr, start, func) {
+    for (var i = 0; i < arr.length; i++) {
+        var obj = arr[i];
+        start = func(start, obj);
+    }
+
+    return start;
+}
+
+function avg(arr) {
+    return reduce(arr, 0, function (a, b) {
+            return a + b;
+        }) / arr.length;
+}
+
+console.log(reduce([2, 3, 4, 5, 6, 8], 1, function (start, newValue) {
+    return start * newValue;
+}));
+
+console.log(reduce([2, 3, 4, 5, 6, 8], 0, function (start, newValue) {
+    return start + newValue;
+}));
+
+console.log(avg([2, 3, 4, 5, 6, 8]));
+
+console.log(reduce(arr, '', function (a, b) {
+    if (a === '') {
+        return b;
+    } else {
+        return a + ', ' + b;
+    }
+}));
+
+//测试bind函数
+function isGreaterThan(dst, src){
+    return src > dst;
+}
+
+console.log(filter([23, 24, 25, 26, 27, 28, 29, 30], isGreaterThan.bind(null, 25)));
+
+
+//测试apply方法
+x = 31;
+
+var applyObj = {
+    x: 23,
+    applyObjX: function(){
+        return this.x;
+    }
+};
+
+console.log(x); //expected 31
+console.log(applyObj.applyObjX()); //expected 23
+
+var applyObjX = applyObj.applyObjX;
+console.log(applyObjX()); //expected 31
+console.log(applyObjX.apply(applyObj)); //expected 23
+
+//测试every和some
+function every(arr, test){
+    for (var i = 0; i < arr.length; i++) {
+        var obj = arr[i];
+        if(!test(obj)){
+            return false;
+        }
+    }
+
+    return true;
+}
+
+function some(arr, test){
+    for (var i = 0; i < arr.length; i++) {
+        var obj = arr[i];
+        if(test(obj)){
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function isPrime(val){
+    var ub = Math.floor(Math.sqrt(val));
+    for (var i = 2; i <= ub; i++){
+        if(val % i == 0){
+            return false;
+        }
+    }
+
+    return true;
+}
+
+//判断是否全部为素数
+console.log(every([2, 3, 5, 7, 11], isPrime));
+console.log(every([2, 3, 4, 7, 11], isPrime));
+
+//判断是否包含素数
+console.log(some([2, 3, 4, 7, 11], isPrime));
+console.log(some([12, 6, 4, 9, 15], isPrime));
+
