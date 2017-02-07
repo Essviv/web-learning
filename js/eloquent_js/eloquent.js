@@ -223,7 +223,7 @@ var obj = {
     name: 'sunyiwei',
     age: 27,
     3: 103,
-    sayHello: function (name) {
+    speak: function (name) {
         console.log('hello, ' + name);
     }
 }
@@ -232,7 +232,7 @@ var propName = 'age';
 console.log(obj['name']);
 console.log(obj[propName]);
 console.log(obj[3]);
-obj.sayHello('essviv');
+obj.speak('essviv');
 
 //测试数组的push, pop方法
 var tmpArr = [];
@@ -589,7 +589,7 @@ console.log(reduce(arr, '', function (a, b) {
 }));
 
 //测试bind函数
-function isGreaterThan(dst, src){
+function isGreaterThan(dst, src) {
     return src > dst;
 }
 
@@ -601,7 +601,7 @@ x = 31;
 
 var applyObj = {
     x: 23,
-    applyObjX: function(){
+    applyObjX: function () {
         return this.x;
     }
 };
@@ -614,10 +614,10 @@ console.log(applyObjX()); //expected 31
 console.log(applyObjX.apply(applyObj)); //expected 23
 
 //测试every和some
-function every(arr, test){
+function every(arr, test) {
     for (var i = 0; i < arr.length; i++) {
         var obj = arr[i];
-        if(!test(obj)){
+        if (!test(obj)) {
             return false;
         }
     }
@@ -625,10 +625,10 @@ function every(arr, test){
     return true;
 }
 
-function some(arr, test){
+function some(arr, test) {
     for (var i = 0; i < arr.length; i++) {
         var obj = arr[i];
-        if(test(obj)){
+        if (test(obj)) {
             return true;
         }
     }
@@ -636,10 +636,10 @@ function some(arr, test){
     return false;
 }
 
-function isPrime(val){
+function isPrime(val) {
     var ub = Math.floor(Math.sqrt(val));
-    for (var i = 2; i <= ub; i++){
-        if(val % i == 0){
+    for (var i = 2; i <= ub; i++) {
+        if (val % i == 0) {
             return false;
         }
     }
@@ -655,3 +655,283 @@ console.log(every([2, 3, 4, 7, 11], isPrime));
 console.log(some([2, 3, 4, 7, 11], isPrime));
 console.log(some([12, 6, 4, 9, 15], isPrime));
 
+//chapter 5
+
+//测试this指针
+function speak(line) {
+    return "The " + this.type + " rabbit says: '" + line + "'";
+}
+
+var black = {
+    type: 'black',
+    speak: speak
+};
+
+var red = {
+    type: 'red',
+    speak: speak
+};
+
+console.log(black.speak("I'm a black rabbit."));
+console.log(red.speak("I'm a red rabbit."));
+
+type = 'hallow';
+console.log(speak('global'));
+console.log(speak.apply(red, ["I'm using apply method."]));
+console.log(speak.call(red, "I'm using apply method."));
+
+//测试prototype
+var emptyObj = {};
+console.log(emptyObj.toString);
+console.log(emptyObj.toString());
+console.log(Object.getPrototypeOf({}) == Object.prototype);
+console.log(Object.getPrototypeOf(Object.prototype));
+console.log(Object.prototype.toString());
+console.log(Object.getPrototypeOf([]) == Array.prototype);
+console.log(Object.getPrototypeOf(isNaN) == Function.prototype);
+
+console.log(Object.prototype == Object.getPrototypeOf(Function.prototype));
+
+function Car() {
+
+}
+
+var car = new Car();
+console.log(car.__proto__ == Car.prototype); //true
+console.log(car.prototype === undefined); //true
+console.log(Object.getPrototypeOf(car) == car.__proto__); //true
+console.log(Object.getPrototypeOf(car) == car.prototype); //false
+
+var protoRabbit = {
+    speak: function (value) {
+        console.log("The " + this.type + " rabbit says: " + value);
+    }
+};
+
+var killerRabbit = Object.create(protoRabbit);
+killerRabbit.type = 'killer';
+killerRabbit.speak('SKEEEE!');
+
+var globalFunc = protoRabbit.speak;
+type = 'global';
+globalFunc('GLOBAL');
+
+//测试constructor
+console.log(car.constructor == Car); //true
+console.log(Car.prototype == car.__proto__); //true
+console.log(Car.prototype == Object.getPrototypeOf(car)); //true
+console.log(Object.getPrototypeOf(Car) == Function.prototype);
+
+Car.prototype.fly = function () {
+    console.log("Car is flying.");
+};
+
+car.fly();
+
+//覆盖属性
+Car.prototype.wheelCount = 4;
+car.wheelCount = 5;
+
+console.log(car.wheelCount); //5
+console.log(new Car().wheelCount); //4
+
+//原型干涉
+function put(event, data) {
+    map[event] = data;
+}
+
+function printAll() {
+    console.log('<================>');
+    for (var obj in map) {
+        console.log(obj);
+    }
+    console.log('<================>');
+}
+
+var map = {};
+put('pizza', 'dfsadf');
+put('touched', 'toudsafd');
+
+printAll();
+
+Object.prototype.nonsense = 'hi';
+printAll();
+
+console.log('nonsense' in map); //true
+console.log('toString' in map); //true
+
+delete Object.prototype.nonsense;
+
+//通过defineProperty方法来声明属性
+Object.defineProperty(Object.prototype, 'hiddenNonse', {enumerable: false, value: 'hi'});
+printAll();
+console.log('hiddenNonse' in map); //true
+console.log(map.hasOwnProperty('hiddenNonse')); //false
+delete Object.prototype.hiddenNonse;
+
+//使用Object.create方法创建对象，并指定它的prototype
+var createObj = Object.create(null);
+console.log(Object.getPrototypeOf(createObj)); //null
+console.log(createObj.prototype); //undefined
+
+var anotherCreateObj = {};
+console.log(Object.getPrototypeOf(anotherCreateObj)); //{}
+console.log(anotherCreateObj.prototype); //undefined
+
+//测试多态
+function Shape() {
+    return {
+        toString: function () {
+            return "shape";
+        }
+    }
+}
+
+var circle = new Shape();
+circle.toString = function () {
+    return "circle";
+};
+console.log(circle.toString());
+
+//测试表格布局
+function rowHeights(rows) {
+    return rows.map(function (row) {
+        return row.reduce(function (max, cell) {
+            return Math.max(max, cell.minHeight());
+        }, 0)
+    });
+}
+
+function colWidths(rows) {
+    return rows[0].map(function (_, i) {
+        return rows.reduce(function (max, row) {
+            return Math.max(max, row[i].minWidth());
+        }, 0);
+    });
+}
+
+function drawTable(rows) {
+    var heights = rowHeights(rows);
+    var widths = colWidths(rows);
+
+    function drawLine(blocks, lineNo) {
+        return blocks.map(function (block) {
+            return block[lineNo];
+        }).join(" ");
+    }
+
+    function drawRow(row, rowNum) {
+        var blocks = row.map(function (cell, colNum) {
+            return cell.draw(widths[colNum], heights[rowNum]);
+        });
+
+        return blocks[0].map(function (_, lineNo) {
+            return drawLine(blocks, lineNo);
+        }).join("\n");
+    }
+
+    return rows.map(drawRow).join("\n");
+}
+
+function repeat(string, times) {
+    var result = '';
+    for (var i = 0; i < times; i++) {
+        result += string;
+    }
+
+    return result;
+}
+
+
+function TextCell(isHeader) {
+    var chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
+    var charLength = chars.length;
+
+    var length = Math.floor(Math.random() * 10) + 1;
+    var result = '';
+
+    for (var i = 0; i < length; i++) {
+        result += chars[Math.floor(Math.random() * charLength)];
+    }
+
+    if (isHeader) {
+        result += '\n';
+        result += repeat('-', length);
+    }
+
+    this.text = result.split('\n');
+}
+
+TextCell.prototype.minWidth = function () {
+    return this.text.reduce(function (width, line) {
+        return Math.max(width, line.length);
+    }, 0);
+};
+
+TextCell.prototype.minHeight = function () {
+    return this.text.length;
+};
+
+TextCell.prototype.draw = function (width, height) {
+    var result = [];
+    for (var i = 0; i < height; i++) {
+        var line = this.text[i] || '';
+        result.push(line + repeat(' ', width - line.length));
+    }
+
+    return result;
+};
+
+var rows = [];
+for (var i = 0; i < 5; i++) {
+    var row = [];
+
+    var isHeader = i == 0;
+
+    for (var j = 0; j < 5; j++) {
+        row.push(new TextCell(isHeader));
+    }
+    rows.push(row);
+}
+
+var result = drawTable(rows);
+console.log(result);
+
+//使用高阶函数打印九九乘法口诀表
+function range(from, to) {
+    var result = [];
+    for (var i = from; i <= to; i++) {
+        result.push(i);
+    }
+
+    return result;
+}
+
+function drawLines(lines) {
+    return lines.map(function (line) {
+        return line.map(function(cell){
+           return cell.draw();
+        }).join("  ");
+    }).join('\n');
+}
+
+function lines(rows, cols){
+    return rows.map(function(row){
+        return cols.map(function(col){
+           return new Cell(row, col);
+        });
+    });
+}
+
+function Cell(row, col) {
+    this.row = row;
+    this.col = col;
+}
+
+Cell.prototype.draw = function () {
+    return this.row + "*" + this.col + "=" + this.col * this.row;
+};
+
+var rows = range(1, 9);
+var cols = range(1, 9);
+console.log(drawLines(lines(rows, cols)));
