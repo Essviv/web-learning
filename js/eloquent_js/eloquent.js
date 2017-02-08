@@ -935,3 +935,22 @@ Cell.prototype.draw = function () {
 var rows = range(1, 9);
 var cols = range(1, 9);
 console.log(drawLines(lines(rows, cols)));
+
+var testFunc = function(){
+
+};
+testFunc.prototype.name = 'sunyiwei';
+
+//测试对象
+console.log(testFunc.__proto__ == Function.prototype);
+for(var obj in testFunc.prototype){
+    console.log(obj);
+}
+console.log(testFunc.prototype.constructor == testFunc);
+console.log('constructor' in testFunc.prototype);
+
+var cell1 = new Cell();
+console.log(Cell.prototype.isPrototypeOf(cell1));
+console.log(testFunc.prototype.isPrototypeOf(new testFunc()));
+console.log(Cell.prototype.__proto__ == Object.prototype);
+
