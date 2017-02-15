@@ -372,7 +372,7 @@ function swap(arr, from, to) {
 
 function randArr() {
     var arr = [];
-    var length = randInt(10) + 3; //at least 3
+    var length = randInt(3) + 3; //at least 3
     for (var i = 0; i < length; i++) {
         arr.push(randInt(10));
     }

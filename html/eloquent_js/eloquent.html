@@ -3,13 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <title>Eloquent JavaScript</title>
-
-    <script src="../../js/eloquent_js/eloquent.js"></script>
+    
+    <!--<script src="../../js/eloquent_js/eloquent.js"></script>-->
+    <style>
+        .highlight {
+            color: red;
+        }
+    </style>
 </head>
 <body>
 
-    <h1>这行是一级标题</h1>
+<h1 class="h1-class" href="fdsf">这行是一级标题</h1>
 
-    <p class="showTest"></p>
+<p class="showTest" about="dfdsa"></p>
+
+<a href="eloquent.html"></a>
+
+<div id="testNodeOp">
+    <p>p1</p>
+    <p>p2</p>
+    <p>p3</p>
+    <p>p4</p>
+</div>
+
+hello
+
+<img src="eloquent.html" alt="eloquent.img">
+<img src="../../images/1.jpeg" alt="1.jpeg">
+<img src="../../images/blue.jpg" alt="blue.jpg">
+<img src="../../images/drinks.gif" alt="drinks.gif">
+<img src="../../images/red.jpg" alt="red.jpg">
+
+<button onclick="replaceImgs();">替换图片</button>
+
+<div>
+    <pre data-language="javascript">
+        function test(){
+            var x = 5;
+            return x;
+        }
+    </pre>
+    
+    <button onclick="highlightAllCode();">强调关键字</button>
+</div>
+
+
+<div>
+    <h1>
+    
+    </h1>
+    
+    <a href="http://www.baidu.com" id="baidu">百度首页</a>
+    
+    <button id="testBtn">测试按钮</button>
+    <button id="addListener">增加事件监听器</button>
+</div>
+
+<div id="mouseMotion">
+    <h1 id="coor">坐标显示</h1>
+</div>
+
+<div id="focusEvt">
+    Name: <input id="name" data-info="请输入姓名" value="">
+    Age: <input id="age" data-info="请输入年龄" value="">
+    <label id="info"></label>
+</div>
+
+<script>
+    document.querySelector("#name").addEventListener("focus", function (evt) {
+        var target = evt.target;
+        if (target.getAttribute("data-info")) {
+            document.querySelector("#info").innerHTML = target.getAttribute("data-info");
+        }
+    });
+
+    document.querySelector("#name").addEventListener("blur", function () {
+        document.querySelector("#info").innerHTML = "";
+    });
+
+    document.querySelector("#age").addEventListener("focus", function (evt) {
+        var target = evt.target;
+        if (target.getAttribute("data-info")) {
+            document.querySelector("#info").innerHTML = target.getAttribute("data-info");
+        }
+    });
+
+    document.querySelector("#age").addEventListener("blur", function () {
+        document.querySelector("#info").innerHTML = "";
+    });
+
+    document.body.addEventListener("mousemove", function (evt) {
+        document.querySelector("#coor").innerHTML = evt.pageX + ", " + evt.pageY;
+    });
+
+    document.querySelector("#addListener").addEventListener("click", function () {
+        var testBtn = document.querySelector("#testBtn");
+        testBtn.addEventListener("click", function (evt) {
+            alert(this.tagName + ": 我这边发生了" + evt.type + "事件.");
+            evt.stopPropagation();
+        });
+
+        testBtn.parentNode.addEventListener("click", function (evt) {
+            if (evt.target == testBtn) {
+                alert(this.tagName + ": 我这边发生了" + evt.type + "事件.");
+            }
+        });
+
+        document.querySelector("#baidu").addEventListener("click", function (evt) {
+            console.log("你点击了超链接，但我不想让页面跳转.");
+            evt.preventDefault();
+        });
+    });
+
+    function replaceImgs() {
+        var imgs = document.body.getElementsByTagName("img");
+        for (var i = imgs.length - 1; i >= 0; i--) {
+            var img = imgs[i];
+            if (img.alt) {
+                var newNode = document.createTextNode(img.alt);
+                img.parentNode.replaceChild(newNode, img);
+            }
+        }
+    }
+
+    function highlightAllCode() {
+        var languagues = {
+            javascript: /\b(function|return|var)\b/g
+        };
+
+        function highlightCode(node, lang) {
+            var ori = node.textContent;
+            node.textContent = "";
+
+            var match, pos = 0;
+            while (match = lang.exec(ori)) {
+                var before = ori.slice(pos, match.index);
+                node.appendChild(document.createTextNode(before));
+
+                var strong = document.createElement("strong");
+                strong.appendChild(document.createTextNode(match[0]));
+                strong.setAttribute("class", "highlight");
+
+                node.appendChild(strong);
+
+                pos = lang.lastIndex;
+            }
+
+            var after = ori.slice(pos);
+            node.appendChild(document.createTextNode(after));
+        }
+
+        var nodes = document.getElementsByTagName("pre");
+        for (var i = nodes.length - 1; i >= 0; i--) {
+            var node = nodes[i];
+            var attr = node.getAttribute("data-language");
+            if (languagues.hasOwnProperty(attr)) {
+                highlightCode(node, languagues[attr]);
+            }
+        }
+    }
+
+    function talksAbout(node, str, exclude) {
+        if (node.tagName && node.tagName.toLowerCase() == exclude) {
+            return;
+        }
+
+        if (node.nodeType == Document.ELEMENT_NODE) {
+            for (var i = 0; i < node.childNodes.length; i++) {
+                if (talksAbout(node.childNodes[i], str, exclude)) {
+                    return true;
+                }
+            }
+        } else if (node.nodeType == Document.TEXT_NODE) {
+            return node.nodeValue.indexOf(str) > -1;
+        }
+    }
+
+    function outputAttrValue(tagName, attrName) {
+        var elements = document.body.getElementsByTagName(tagName);
+        if (elements) {
+            return elements[0].getAttribute(attrName);
+        }
+    }
+
+    console.log(talksAbout(document.body, "hello", "script"));
+    console.log(outputAttrValue("p", "class"));
+    console.log(outputAttrValue("h1", "href"));
+    console.log(outputAttrValue("a", "href"));
+
+    var divNode = document.getElementById("testNodeOp");
+    divNode.replaceChild(divNode.childNodes[2], divNode.childNodes[0]);
+</script>
+
 </body>
 </html>

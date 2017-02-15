@@ -513,13 +513,13 @@ console.log(ori.replace(reg22, 'k'));
 
 var testStr = '1  apple, 13 lemons, 5 watermelons.';
 var reg24 = /(\d+)\s+(\w+)/g;
-console.log(testStr.replace(reg24, function(match, count, unit){
+console.log(testStr.replace(reg24, function (match, count, unit) {
     var newCount = Number(count) - 1;
-    if(newCount == 0){
+    if (newCount == 0) {
         newCount = 'no';
     }
 
-    if(newCount == 1){
+    if (newCount == 1) {
         unit = unit.slice(0, unit.length - 1);
     }
 
@@ -531,5 +531,49 @@ console.log('var x = 10; //assign x'.replace(stripComment, ""));
 console.log('var x /* nonsense comment */ = 10;'.replace(stripComment, ""));
 
 var stripCommentNoGreedy = /\/\/.*|\/\*[^]*?\*\//g;
-console.log(' 1 /* nonsense */ + /* nonsense */ 1'.replace(stripComment, "") );
-console.log(' 1 /* nonsense */ + /* nonsense */ 1'.replace(stripCommentNoGreedy, "") );
+console.log(' 1 /* nonsense */ + /* nonsense */ 1'.replace(stripComment, ""));
+console.log(' 1 /* nonsense */ + /* nonsense */ 1'.replace(stripCommentNoGreedy, ""));
+
+var reg25 = /(\d{2,11}?)/g;
+console.log('138678786686688686'.replace(reg25, function (match, sub) {
+    return Number(sub) + 1;
+}));
+
+//chapter 10. modules
+var weekDay = function () {
+    var names = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    return {
+        numberToName: function (number) {
+            return names[number];
+        },
+
+        nameToNum: function (name) {
+            return names.indexOf(name);
+        }
+    };
+}();
+
+console.log(weekDay.numberToName(4));
+console.log(weekDay.nameToNum("Sunday"));
+
+
+//export object
+(function (exports) {
+    var names = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    exports.numberToName = function (number) {
+        return names[number];
+    };
+
+    exports.nameToNum = function (name) {
+        return names.indexOf(name);
+    };
+})(this.exportObj = {});
+
+console.log(this.exportObj.numberToName(5));
+
+//测试eval方法
+var body = "var x = 5;";
+(function(){
+    eval(body);
+    console.log(x);
+})();
