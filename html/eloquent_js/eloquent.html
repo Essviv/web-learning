@@ -9,6 +9,10 @@
         .highlight {
             color: red;
         }
+        
+        .testTimer {
+            background-color: red;
+        }
     </style>
 </head>
 <body>
@@ -32,7 +36,7 @@ hello
 <img src="../../images/1.jpeg" alt="1.jpeg">
 <img src="../../images/blue.jpg" alt="blue.jpg">
 <img src="../../images/drinks.gif" alt="drinks.gif">
-<img src="../../images/red.jpg" alt="red.jpg">
+<img src="../../images/red.jpg" alt="red.jpg" id="redImg">
 
 <button onclick="replaceImgs();">替换图片</button>
 
@@ -69,7 +73,83 @@ hello
     <label id="info"></label>
 </div>
 
+<div class="testTimer">
+    <h1>测试定时器</h1>
+</div>
+
+<div>
+    <input id="testDebouncing">
+</div>
+
+<div>
+    <canvas id="myCanvas"></canvas>
+    
+    <button id="canvasBtn">点我看看</button>
+</div>
+
+<div>
+    <p id="xhr"></p>
+    
+    <button id="xhrBtn">异步请求</button>
+</div>
+
 <script>
+    document.querySelector("#xhrBtn").addEventListener("click", function () {
+        var xhr = new XMLHttpRequest();
+//        xhr.open("GET", "../font.html", true);
+        xhr.open("GET", "https://www.baidu.com", true);
+        xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+        xhr.setRequestHeader("Access-Control-Allow-Headers", "Content-Type");
+        xhr.setRequestHeader("Content-Type", "text/plain");
+        
+        xhr.addEventListener("load", function(){
+            if (xhr.readyState == XMLHttpRequest.DONE && xhr.status === 200) {
+                document.querySelector("#xhr").innerHTML = xhr.responseText;
+            }
+        });
+
+        xhr.send();
+    });
+
+    document.querySelector("#canvasBtn").addEventListener("click", function () {
+        var svgObj = document.getElementById("myCanvas");
+        console.log(svgObj);
+
+        var svgContext = svgObj.getContext('2d');
+        svgContext.fillStyle = 'yellow';
+        svgContext.fillRect(0, 0, 100, 200);
+    });
+
+    var timeout;
+    document.querySelector("#testDebouncing").addEventListener("keydown", function (evt) {
+        clearTimeout(timeout);
+        timeout = setTimeout(function () {
+            console.log("You stop typing.");
+        }, 500);
+    });
+    document.querySelector("#redImg").addEventListener("load", function (evt) {
+        console.log("Red img has been loaded.");
+    });
+
+    window.addEventListener("beforeunload", function (evt) {
+        evt.preventDefault();
+        return "R u sure?";
+    });
+
+    setTimeout(function () {
+        document.querySelector(".testTimer").style.backgroundColor = 'yellow';
+    }, 3000);
+
+    var count = 0;
+    var intervalFunc = setInterval(function () {
+        if (count > 10) {
+            clearInterval(intervalFunc);
+        }
+
+        console.log("Interval start. Count = " + count);
+        count++;
+    }, 500);
+
     document.querySelector("#name").addEventListener("focus", function (evt) {
         var target = evt.target;
         if (target.getAttribute("data-info")) {
@@ -92,8 +172,17 @@ hello
         document.querySelector("#info").innerHTML = "";
     });
 
+    var scheduled = false;
+    var lastEvent = undefined;
     document.body.addEventListener("mousemove", function (evt) {
-        document.querySelector("#coor").innerHTML = evt.pageX + ", " + evt.pageY;
+        lastEvent = evt;
+        if (!scheduled) {
+            scheduled = true;
+            setTimeout(function () {
+                scheduled = false;
+                document.querySelector("#coor").innerHTML = evt.pageX + ", " + evt.pageY;
+            }, 250);
+        }
     });
 
     document.querySelector("#addListener").addEventListener("click", function () {
