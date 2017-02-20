@@ -93,7 +93,18 @@ hello
     <button id="xhrBtn">异步请求</button>
 </div>
 
+<div>
+    <p id="attr" style="width: 500px; color: red">测试属性</p>
+    <button id="attrBtn">清空样式</button>
+</div>
+
 <script>
+    console.log(document.getElementById("attr").getAttribute("style"));
+
+    document.querySelector("#attrBtn").addEventListener("click", function () {
+        this.previousElementSibling.setAttribute("style", "");
+    });
+    
     document.querySelector("#xhrBtn").addEventListener("click", function () {
         var xhr = new XMLHttpRequest();
 //        xhr.open("GET", "../font.html", true);

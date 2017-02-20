@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Gallery</title>
+    
+    <style>
+        abbr {
+            text-decoration: none;
+            border: 0;
+            font-style: normal;
+        }
+        
+        #dlDiv {
+            border: solid 1px red;
+            background-color: #d2b48c;
+        }
+        
+        a {
+            color: #00bcd4;
+            text-decoration: underline;
+        }
+    
+    </style>
+</head>
+<body>
+<h1>Snapshots</h1>
+
+<ul id="imageGallery">
+    <li><a href="../../images/1.jpeg" title="A">Fireworks</a></li>
+    <li><a href="../../images/red.jpg" title="A coffee">Coffee</a></li>
+    <li><a href="../../images/drinks.gif" title="A big red rose">Rose</a></li>
+    <li><a href="../../images/blue.jpg" title="a famous clock">Bigben</a></li>
+</ul>
+
+<a href="http://www.google.com" onclick="return (confirm('Follow this link?'));">Google</a>
+
+<button id="popUpBtn">点我试试</button>
+
+<div id="innerHtmlTest">
+    <p>This is <em>my</em> content</p>
+</div>
+
+<div id="dynamicElement">
+    <button onclick="addChild();">增加兄弟节点</button>
+</div>
+
+<div>
+    <h1>What's the Document Object Model?</h1>
+    <p>
+        The <abbr title="World Wide Web Consortium">W3C</abbr> defines the <abbr
+            title="Document Object Model">DOM</abbr> as:
+    </p>
+    
+    <blockquote cite="http://www.w3c.org/DOM/">
+        <p>
+            A platform- and language- neutral interface that will allow programs and scripts to dynamically access and
+            update
+            the content, structure and style of documents.
+        </p>
+    </blockquote>
+    
+    <p>
+        It is an <abbr title="Application Program Interface">API</abbr> that can be used to navigate
+        <abbr title="Hypertext Markup Language">HTML</abbr> and <abbr title="eXtensible Markup Language">XML</abbr>
+        documents.
+    </p>
+</div>
+
+<div id="movement" style="left: 50px; top: 50px;">
+    <h1>我是会动的元素</h1>
+</div>
+
+<script>
+    var count = 0;
+
+    //移动元素
+    function moveElement(targetId, dest, interval) {
+        var elem = document.getElementById(targetId);
+        if (!elem) {
+            return;
+        }
+
+        var srcX = parseInt(elem.style.left);
+        var srcY = parseInt(elem.style.top);
+        console.log("[" + count++ + "]srcX = " + srcX + ", srcY = " + srcY);
+
+        var destX = parseInt(dest.position.left);
+        var destY = parseInt(dest.position.top);
+
+        elem.style.position = "absolute";
+        elem.style.left = ++srcX+ "px";
+        elem.style.top = ++srcY + "px";
+
+        if (srcX != destX || srcY != destY) {
+            setTimeout(moveElement, interval, targetId, dest, interval);
+        }
+    }
+
+    function collectQuote() {
+        var elems = document.getElementsByTagName("blockquote");
+        for (var i = 0; i < elems.length; i++) {
+            var elem = elems[i];
+            if (!elem.cite) {
+                continue;
+            }
+
+            var childElemCount = elem.childElementCount;
+            if (childElemCount <= 0) {
+                continue;
+            }
+
+            var supNode = document.createElement("sup");
+
+            var aNode = document.createElement("a");
+            aNode.href = elem.getAttribute("cite");
+            aNode.appendChild(document.createTextNode("source"));
+
+            supNode.appendChild(aNode);
+
+            elem.children[childElemCount - 1].appendChild(supNode);
+        }
+    }
+
+    function collectAbbr() {
+        var elems = document.getElementsByTagName("abbr");
+
+        var divNode = document.createElement("div");
+        divNode.id = "dlDiv";
+
+        var dlNode = document.createElement("dl");
+
+        for (var i = 0; i < elems.length; i++) {
+            var elem = elems[i];
+
+            var dtNode = document.createElement("dt");
+            dtNode.appendChild(document.createTextNode(elem.innerText));
+
+            var ddNode = document.createElement("dd");
+            ddNode.appendChild(document.createTextNode(elem.getAttribute("title")));
+
+            dlNode.appendChild(dtNode);
+            dlNode.appendChild(ddNode);
+        }
+
+        divNode.appendChild(dlNode);
+        document.body.appendChild(divNode);
+    }
+
+    function addChild() {
+        var divElem = document.getElementById("dynamicElement");
+        var newChild = document.createElement("h1");
+        newChild.style.color = "red";
+        newChild.appendChild(document.createTextNode("我是新增的节点"));
+
+        divElem.insertBefore(newChild, divElem.firstChild);
+    }
+
+    console.log("innerHtml: " + document.getElementById("innerHtmlTest").innerHTML);
+    console.log("outerHtml: " + document.getElementById("innerHtmlTest").outerHTML);
+    console.log("innerText: " + document.getElementById("innerHtmlTest").innerText);
+
+    function showUrl(url) {
+        window.open(url, "popUp", "width=320, height=480")
+    }
+
+    function showPic(ele) {
+        var isNewNode = document.getElementById("imagePlaceHolder") == null;
+        var imgNode = document.getElementById("imagePlaceHolder") || document.createElement("img");
+
+        imgNode.src = ele.getAttribute('href');
+        imgNode.alt = "image gallery";
+        imgNode.id = "imagePlaceHolder";
+
+        if (isNewNode) {
+            document.getElementById("imageGallery").appendChild(imgNode);
+        }
+    }
+
+    function showDesc(ele) {
+        var isNewNode = document.getElementById("description") == null;
+        var descNode = document.getElementById("description") || document.createElement("h1");
+
+        descNode.innerText = ele.getAttribute("title");
+        descNode.id = "description";
+
+        if (isNewNode) {
+            document.getElementById("imageGallery").appendChild(descNode);
+        }
+    }
+
+    document.getElementById("popUpBtn").addEventListener("click", function () {
+        showUrl("http://www.baidu.com");
+    });
+
+    var hyperlinks = document.getElementsByTagName("a");
+    for (var i = 0; i < hyperlinks.length; i++) {
+        var elem = hyperlinks[i];
+
+        var clickHandler = function (evt) {
+            showPic(this);
+            showDesc(this);
+
+            evt.preventDefault();
+        };
+
+        elem.addEventListener("click", clickHandler);
+    }
+
+    window.onload = function () {
+        var children = document.body.childNodes;
+        console.log(children.length);
+
+        for (var i = 0; i < children.length; i++) {
+            console.log(children[i].tagName + ": " + children[i].nodeType);
+        }
+
+        collectAbbr();
+
+        collectQuote();
+
+        moveElement("movement", {"position": {"left": "500px", "top": "500px"}}, 10);
+    }
+</script>
+</body>
+</html>
