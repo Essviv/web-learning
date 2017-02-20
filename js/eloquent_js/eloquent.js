@@ -909,16 +909,16 @@ function range(from, to) {
 
 function drawLines(lines) {
     return lines.map(function (line) {
-        return line.map(function(cell){
-           return cell.draw();
+        return line.map(function (cell) {
+            return cell.draw();
         }).join("  ");
     }).join('\n');
 }
 
-function lines(rows, cols){
-    return rows.map(function(row){
-        return cols.map(function(col){
-           return new Cell(row, col);
+function lines(rows, cols) {
+    return rows.map(function (row) {
+        return cols.map(function (col) {
+            return new Cell(row, col);
         });
     });
 }
@@ -936,14 +936,14 @@ var rows = range(1, 9);
 var cols = range(1, 9);
 console.log(drawLines(lines(rows, cols)));
 
-var testFunc = function(){
+var testFunc = function () {
 
 };
 testFunc.prototype.name = 'sunyiwei';
 
 //测试对象
 console.log(testFunc.__proto__ == Function.prototype);
-for(var obj in testFunc.prototype){
+for (var obj in testFunc.prototype) {
     console.log(obj);
 }
 console.log(testFunc.prototype.constructor == testFunc);
@@ -954,3 +954,64 @@ console.log(Cell.prototype.isPrototypeOf(cell1));
 console.log(testFunc.prototype.isPrototypeOf(new testFunc()));
 console.log(Cell.prototype.__proto__ == Object.prototype);
 
+//测试对象(续)
+var newObj = new Object();
+newObj.firstName = "essviv";
+newObj.sayName = function () {
+    return this.firstName;
+};
+
+console.log(newObj.sayName());
+console.log(newObj["sayName"]());
+
+var objFunc = newObj.sayName;
+console.log(objFunc.call(newObj));
+
+
+//测试继承
+function SuperType() {
+    this.name = "superType";
+}
+
+function SubType() {
+    this.value = "subType";
+}
+
+var superTypeInst = new SuperType();
+SubType.prototype = superTypeInst;
+SubType.prototype.sayValue = function () {
+    return this.value;
+};
+
+var subTypeInst = new SubType();
+var subTypeInst2 = new SubType();
+console.log(subTypeInst.sayValue());
+console.log(subTypeInst.value);
+console.log(subTypeInst.name);
+console.log(subTypeInst.__proto__ == superTypeInst);
+console.log(superTypeInst.__proto__ == SuperType.prototype);
+console.log(subTypeInst.prototype == undefined);
+console.log(SuperType.prototype.constructor == SuperType);
+console.log(subTypeInst.sayValue === subTypeInst2.sayValue);
+console.log(subTypeInst.sayValue === SubType.prototype.sayValue);
+
+//borrow methods
+SubType.prototype.toUpperCase = String.prototype.toUpperCase;
+SubType.prototype.toString = function () {
+    return this.name;
+};
+
+console.log(subTypeInst.toUpperCase("hello world"));
+
+
+//测试正则表达式
+function regTest(text) {
+    var reg = /(<script>(.*)<\/script>)/g;
+    var resultArr;
+    while ((resultArr = reg.exec(text)) !== null) {
+        //eval
+        eval(resultArr[2]);
+    }
+}
+
+console.log(regTest("<script>var x = 5; return x;</script>"));
