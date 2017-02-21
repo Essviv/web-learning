@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page to practise jQuery</title>
+    
+    <script src="../js/jquery-3.1.1.min.js" type="text/javascript"></script>
+    <link href="../css/jquerySelector.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="one" id="one">
+    id为one, class为one的div
+    <div class="mini">class为mini</div>
+</div>
+
+<div class="one" id="two" title="test">
+    id为two, class为one, title为test的div
+    <div class="mini" title="other">class为mini, title为other</div>
+    <div class="mini" title="test">class为mini, title为test</div>
+</div>
+
+<div class="one">
+    <div class="mini">class为mini</div>
+    <div class="mini">class为mini</div>
+    <div class="mini">class为mini</div>
+    <div class="mini"></div>
+</div>
+
+<div class="one">
+    <div class="mini">class为mini</div>
+    <div class="mini">class为mini</div>
+    <div class="mini">class为mini</div>
+    <div class="mini" title="test">class为mini, title为test</div>
+</div>
+
+<div style="display:none;" class="none">
+    style的display为none的div
+</div>
+
+<div class="hide">class为hide的div</div>
+
+<div>
+    包含input的type为hidden的div
+    <input type="hidden" size="8"/>
+</div>
+
+<span id="mover">正在执行动画的span元素</span>
+
+<div>
+    <form id="form">
+        <div id="radio" class="mini">
+            a: <input type="radio" name="radio" value="234" checked>
+            b: <input type="radio" name="radio" value="234">
+            c: <input type="radio" name="radio" value="234">
+        </div>
+        
+        <div id="checkbox" class="mini">
+            j:<input type="checkbox" checked value="fdfs">
+            k:<input type="checkbox" value="fdfs">
+            l:<input type="checkbox" checked value="fdfs">
+        </div>
+        
+        <div id="submit" class="mini">
+            <button type="submit">确认</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    $(function () {
+        $("span[id]").css("color", randomColor())
+            .css("background-color", randomColor())
+            .css("border-color", randomColor());
+    });
+
+    function randomColor() {
+        var arr = '0123456789abcdef'.split("");
+        var length = arr.length;
+
+        var result = ["#"];
+        for (var i = 0; i < 6; i++) {
+            result.push(arr[Math.round(Math.random() * length)]);
+        }
+
+        return result.join("");
+    }
+
+</script>
+</body>
+</html>
