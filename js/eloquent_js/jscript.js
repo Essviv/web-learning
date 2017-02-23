@@ -320,6 +320,114 @@ jscript.page.breakOutFrame = function () {
     }
 };
 
+jscript.storage = function () {
+};
+jscript.storage.setCookie = function (name, value, expire) {
+    if (typeof expire === 'Date') {
+        expire = expire.toGMTString();
+    }
+
+    document.cookie = name + "=" + escape(value) + ";expires=" + expire;
+};
+
+jscript.storage.getCookie = function (name) {
+    var cookie = document.cookie;
+    var fromIndex = cookie.indexOf(name + "=");
+    if (fromIndex == -1) {
+        return null;
+    }
+
+    fromIndex = cookie.indexOf("=", fromIndex) + 1;
+    var endIndex = cookie.indexOf(";", fromIndex);
+    if (endIndex == -1) {
+        endIndex = cookie.length;
+    }
+
+    return unescape(cookie.substr(fromIndex, endIndex));
+};
+
+jscript.storage.deleteCookie = function (name) {
+    var cookie = this.getCookie(name);
+    if (cookie != null) {
+        this.setCookie(name, null, new Date(1970, 1, 1));
+    }
+};
+
+jscript.string = function () {
+};
+jscript.string.substrCount = function (str, subStr) {
+    var reg = new RegExp(subStr, 'g');
+    var arr;
+
+    var count = 0;
+    while ((arr = reg.exec(str)) !== null) {
+        count++;
+    }
+
+    return count;
+};
+
+jscript.string.replace = function (str, oldSub, newSub) {
+    if (!str || !oldSub || !newSub) {
+        return;
+    }
+
+    while (str.index(oldSub) != -1) {
+        str.replace(oldSub, newSub);
+    }
+
+    return str;
+};
+
+jscript.string.leftTrim = function (str) {
+    for (var i = 0; str[i] == " "; i++) {
+    }
+    return str.substring(i);
+};
+
+jscript.string.rightTrim = function (str) {
+    for (var i = str.length - 1; str[i] == " "; i--) {
+    }
+    return str.substring(0, i + 1);
+};
+
+jscript.string.fullTrim = function (str) {
+    str = this.leftTrim(str);
+    return this.rightTrim(str);
+};
+
+jscript.string.breakLine = function (str, size) {
+    if (!str) {
+        return;
+    }
+
+    if (str.length <= size) {
+        return str;
+    }
+
+    var arr = [];
+    while (str.length > size) {
+        var subStr = str.substring(0, size);
+        var y = subStr.indexOf(" ");
+        var z = subStr.indexOf("\n");
+
+        if (z != -1) {
+            y = z;
+        }
+
+        if (y == -1) {
+            y = size;
+        }
+
+        subStr = str.substring(0, y);
+        arr.push(subStr);
+
+        str = str.substring(y);
+    }
+
+    return arr;
+};
+
 function setValue(selectElem, value) {
     if (!selectElem || !selectElem.options) {
         return;

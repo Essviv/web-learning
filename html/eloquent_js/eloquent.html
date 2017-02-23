@@ -99,6 +99,11 @@ hello
 </div>
 
 <script>
+    document.cookie = "name=sunyiwei;expires=" + new Date().toGMTString();
+    document.cookie = "haha=lisa;expires=" + new Date().toGMTString();
+
+    console.log(document.cookie);
+    
     console.log(document.getElementById("attr").getAttribute("style"));
 
     document.querySelector("#attrBtn").addEventListener("click", function () {

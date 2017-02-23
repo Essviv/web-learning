@@ -46,6 +46,8 @@
 
 <span id="mover">正在执行动画的span元素</span>
 
+<div></div>
+
 <div>
     <form id="form">
         <div id="radio" class="mini">
@@ -66,12 +68,154 @@
     </form>
 </div>
 
+<button id="testBtn">节点的增删改查</button>
+
+<div title="gd-value">
+    这个title为gd-value
+</div>
+
+<div>
+    <h1>这个是标题哦！</h1>
+</div>
+
 <script>
     $(function () {
-        $("span[id]").css("color", randomColor())
-            .css("background-color", randomColor())
-            .css("border-color", randomColor());
+        //tag
+//       changeColor($("div"));
+
+        //class
+//       changeColor($(".mini"));
+
+        //id
+//        changeColor($("#two"));
+
+        //group
+//        changeColor($(".mini, #one"));
+
+        //all
+//        changeColor($("*"));
+
+        //hierarchy
+
+        //dirent child
+//        changeColor($(".one > .mini"));
+
+        //descendant
+//        changeColor($("div div"));
+
+        //direct sibling
+//        changeColor($("div + div"));
+
+        //siblings
+//        changeColor($("span ~ div"));
+
+        //basic filter
+
+        //first
+//        changeColor($("div:first"));
+
+        //last
+//        changeColor($("div:last"));
+
+        //eq
+//        changeColor($("div:eq(3)"));
+
+        //gt
+//        changeColor($("div:gt(3)"));
+
+        //lt
+//        changeColor($("div:lt(3)"));
+
+        //not
+//        changeColor($("div:not('.mini')"));
+
+        //even
+//        changeColor($("div:even"));
+
+        //odd
+//        changeColor($("div:not(.mini):odd"));
+
+        //header
+//        changeColor($(":header"));
+
+        //content filter
+
+        //parent
+//        changeColor($("div:parent"));
+
+        //empty
+//        changeColor($("div:empty"));
+
+        //has
+//        changeColor($("div:has('input')"));
+
+        //contains
+//        changeColor($("div:contains('input')"));
+
+        //attr filter
+        //[attr]
+//        changeColor($("div[title]"));
+
+        //[attr=value]
+//        changeColor($("div[class='mini']"));
+
+        //[attr^=value]
+//        changeColor($("div[id^='ch']"));
+
+        //[attr$=value]
+//        changeColor($("div[id$='ox']"));
+
+        //[attr|=value]
+//        changeColor($("div[title|='gd']"));
+        
+        //visible filter
+        //visible
+//        changeColor($("div:visible"));
+        
+        //child filter
+        
+        //nth-child
+//        changeColor($("div div:nth-child(3n+1)"));
+        
+        //only-child
+//        changeColor($("div div:only-child"));
+        
+        //first-child
+//        changeColor($("div div:first-child"));
+        
+        //last-child
+//        changeColor($("div div:last-child"));
+        
+        //form filter
+//        changeColor($(":radio:selected"));
+        
+        //dom operation
+        //node CURD
+        
+        //create node
+        $("#testBtn").click(function(){
+            var target = $("#radio");
+            var newNode = $("<input type='radio' name='radio' value='43' checked/>")
+            target.append(newNode);
+            newNode.remove();
+        });
+        
+        $("div:last").contextmenu(function(evt){
+            var message = evt.target + evt.type;
+            var newNode = $("<div class='mini'><h2>" + message + "</h2></div>");
+            
+            $(this).prepend(newNode);
+        });
+        
+        $("div:last").click(function(){
+            $(this).find("div:first").fadeToggle('slow', 'linear');
+        });
     });
+
+    function changeColor(elem) {
+        elem.css("background-color", randomColor())
+            .css("color", randomColor());
+    }
 
     function randomColor() {
         var arr = '0123456789abcdef'.split("");

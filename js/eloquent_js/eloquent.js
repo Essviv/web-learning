@@ -1014,4 +1014,10 @@ function regTest(text) {
     }
 }
 
-console.log(regTest("<script>var x = 5; return x;</script>"));
+// console.log(regTest("<script>var x = 5; return x;</script>"));
+
+var str = "";
+console.log(!str);
+
+str = null;
+console.log(!str);
