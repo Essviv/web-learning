@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>xhr ajax</title>
+</head>
+<body>
+<span id="ajaxBtn" style="cursor: pointer; text-decoration: underline">
+        Make a request
+    </span>
+
+<script>
+    (function () {
+        document.getElementById("ajaxBtn").onclick = makeRequest('test.xml', processResp);
+
+        function makeRequest(url, processor) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", url);
+
+            xhr.onreadystatechange = processor(xhr);
+            xhr.send();
+        }
+
+        function processResp(xhr) {
+            return function () {
+                if (xhr.readyState == XMLHttpRequest.DONE) {
+                    if (xhr.status == 200) {
+//                        var newNode = document.createTextNode(xhr.responseText);
+//                        document.getElementById("ajaxBtn").appendChild(newNode);
+                        
+                        var xmlDoc = xhr.responseXML;
+                        var root = xmlDoc.getElementsByTagName("root").item(0);
+                        console.log(root.firstChild.data);
+                    } else {
+                        document.getElementById("ajaxBtn").appendChild(document.createTextNode(xhr.statusCode()));
+                    }
+                }
+            }
+        }
+    })();
+</script>
+</body>
+</html>

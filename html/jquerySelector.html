@@ -6,6 +6,13 @@
     
     <script src="../js/jquery-3.1.1.min.js" type="text/javascript"></script>
     <link href="../css/jquerySelector.css" rel="stylesheet" type="text/css"/>
+    
+    <style>
+        .focus {
+            border: 1px solid #f00;
+            background: #fcc;
+        }
+    </style>
 </head>
 <body>
 <div class="one" id="one">
@@ -78,7 +85,11 @@
     <h1>这个是标题哦！</h1>
 </div>
 
+
+
 <script>
+
+
     $(function () {
         //tag
 //       changeColor($("div"));
@@ -167,47 +178,47 @@
 
         //[attr|=value]
 //        changeColor($("div[title|='gd']"));
-        
+
         //visible filter
         //visible
 //        changeColor($("div:visible"));
-        
+
         //child filter
-        
+
         //nth-child
 //        changeColor($("div div:nth-child(3n+1)"));
-        
+
         //only-child
 //        changeColor($("div div:only-child"));
-        
+
         //first-child
 //        changeColor($("div div:first-child"));
-        
+
         //last-child
 //        changeColor($("div div:last-child"));
-        
+
         //form filter
 //        changeColor($(":radio:selected"));
-        
+
         //dom operation
         //node CURD
-        
+
         //create node
-        $("#testBtn").click(function(){
+        $("#testBtn").click(function () {
             var target = $("#radio");
             var newNode = $("<input type='radio' name='radio' value='43' checked/>")
             target.append(newNode);
             newNode.remove();
         });
-        
-        $("div:last").contextmenu(function(evt){
+
+        $("div:last").contextmenu(function (evt) {
             var message = evt.target + evt.type;
             var newNode = $("<div class='mini'><h2>" + message + "</h2></div>");
-            
+
             $(this).prepend(newNode);
         });
-        
-        $("div:last").click(function(){
+
+        $("div:last").click(function () {
             $(this).find("div:first").fadeToggle('slow', 'linear');
         });
     });
