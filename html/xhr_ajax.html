@@ -25,9 +25,6 @@
             return function () {
                 if (xhr.readyState == XMLHttpRequest.DONE) {
                     if (xhr.status == 200) {
-//                        var newNode = document.createTextNode(xhr.responseText);
-//                        document.getElementById("ajaxBtn").appendChild(newNode);
-                        
                         var xmlDoc = xhr.responseXML;
                         var root = xmlDoc.getElementsByTagName("root").item(0);
                         console.log(root.firstChild.data);

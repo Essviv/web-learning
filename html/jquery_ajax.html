@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jquery ajax</title>
+</head>
+<body>
+<button id="ajaxBtn" onclick="ajaxSubmit();return false;">异步提交</button>
+<div id="resText"></div>
+
+<div id="jqLoad" style="border: 5px solid darkred"></div>
+
+<div id="jqGet" style="border: 1px solid darkblue;"></div>
+
+<div id="jqGetScript">
+    <button id="getScritBtn">&gt;&gt;Run</button>
+    <div id="getScriptBlock" style="width: 400px; height: 320px;background-color: yellow;"></div>
+</div>
+
+<div id="jqGetJson">
+    <div id="getJson" style="width: 400px; height: 320px;background-color: lightgreen;"></div>
+</div>
+
+<div id="jqSerialize">
+    <form id="serializeForm">
+        名字: <input name="name"/>
+        地址: <input name="addr"/>
+        <select id="hobbies" multiple>
+            <option value="basketball">篮球</option>
+            <option value="football">足球</option>
+            <option value="tennis">网球</option>
+            <option value="swimming">游泳</option>
+        </select>
+        
+        <input type="checkbox" name="characteristics" value="handsome"/>帅
+        <input type="checkbox" name="characteristics" value="beautiful"/>美
+        <input type="checkbox" name="characteristics" value="cheap"/>贱
+        
+        <input type="radio" name="isHandsome" value="true"/>帅
+        <input type="radio" name="isHandsome" value="false"/>丑
+        
+        <button type="submit" id="formSubmitBtn">试试看</button>
+    </form>
+</div>
+
+<script src="../js/jquery-3.1.1.min.js"></script>
+
+<script>
+    $(document).ajaxStart(function () {
+        console.log("ajax request start.");
+    }).ajaxStop(function () {
+        console.log("ajax request stop.");
+    }).ajaxSend(function () {
+        console.log("ajax request send.");
+    }).ajaxSuccess(function () {
+        console.log("ajax request success.");
+    });
+
+    //jquery param
+    $(function () {
+        var obj = {
+            a: 1,
+            b: 2,
+            d: 3,
+            e: 4
+        };
+
+        console.log($.param(obj));
+    });
+
+    //jquery serialize
+    $(function () {
+        $("#formSubmitBtn").click(function () {
+            var data = $("#serializeForm").serialize();
+            $.post({
+                url: "font.html",
+                data: data,
+                global: false
+            })
+                .done(function () {
+                    console.log(data);
+                })
+                .fail(function (xhr, status) {
+                    console.log(status);
+                });
+
+            return false;
+        });
+    });
+
+    //jquery getjson
+    $(function () {
+        $.getJSON("test.json", function (data) {
+            var iterms = [];
+            $.each(data, function (key, val) {
+                iterms.push("<li id='" + key + "'>" + val + "</li>");
+            });
+
+            $("<ul />", {
+                "class": "my-new-list",
+                "id": "getJsonUl",
+                html: iterms.join("")
+            }).appendTo("#getJson");
+
+        });
+    });
+
+    //jquery getScript
+    $(function () {
+        $("#getScritBtn").click(function () {
+            $.getScript("../js/jquery.color-2.1.0.min.js", function () {
+                $("#getScriptBlock").animate({
+                    "background-color": '#43432a'
+                }, 1000).delay(500).animate({
+                    "background-color": "rgb(255, 128, 128)"
+                }, 1000);
+            });
+        });
+    });
+
+    //jquery ajax get
+    $(function () {
+        $.get({
+            url: "Cities.html",
+            dataType: "html"
+        }).done(function (data) {
+            $("#jqGet").html(data);
+        }).fail(function (xhr, status) {
+            $("#jqGet").html(status);
+        });
+    });
+
+    //load function
+    $(function () {
+        $("#jqLoad").load("font.html p");
+    });
+
+    function ajaxSubmit() {
+        $.ajax({
+            beforeSend: function (xhr) {
+                //try to modify content-type header
+                xhr.setRequestHeader("Content-Type", "application/html");
+            },
+
+            url: "formPractise.html",
+            headers: {
+                "Content-Type": "application/json",
+                "X-4ggogo-token": "sdfljsalkfjh324j23l4j-234kl32l"
+            },
+            dataType: "html",
+            method: "GET",
+            timeout: 1000,
+            async: true,
+            success: function (data) {
+                $("#resText").html(data);
+            },
+            error: function (xhr, status) {
+                $("#resText").html(status);
+            }
+        });
+    }
+</script>
+</body>
+</html>
