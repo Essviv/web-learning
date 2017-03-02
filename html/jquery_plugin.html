@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jquery plugins</title>
+</head>
+<body>
+<a href="http://www.baidu.com/" style="color: red;">我本来是红色的！</a>
+
+<form>
+    <div>
+        <p style="color: darkblue;">蜀犬吠日jfdlsajfldasjfldjalkfjlksajflksdajlkdfsjalsfkdjlsakjl</p>
+    </div>
+    
+    姓名：<input type="text" myRequired/>
+    身高: <input type="text" myRequired/>
+    <input type="submit" value="提交"/>
+</form>
+
+<script src="../js/jquery-3.1.1.min.js"></script>
+<script src="../js/plugins/jquery_plugins.js"></script>
+
+<script>
+    $(function () {
+        $("a, p").color({
+            "color": "",
+            "background-color": "",
+            "text-decoration": "underline",
+            "border": "2px solid dark",
+            "font": "Arial, Sans-serif"
+        });
+
+        $("form").form();
+    });
+</script>
+</body>
+</html>

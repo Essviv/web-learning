@@ -1,0 +1,24 @@
+{
+  "name": "web-learning",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Essviv/web-learning.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Essviv/web-learning/issues"
+  },
+  "homepage": "https://github.com/Essviv/web-learning#readme",
+  "dependencies": {
+    "jquery-datetimepicker": "^2.5.4",
+    "requirejs": "^2.3.3"
+  }
+}

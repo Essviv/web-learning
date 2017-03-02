@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>page to test jquery-datetimepicker</title>
+    
+    <!--<link rel="stylesheet" href="https://unpkg.com/flatpickr/dist/flatpickr.min.css">-->
+    
+    <!--<link rel="stylesheet" href="../css/airbnb.css">-->
+    <link rel="stylesheet" href="../css/material_blue.css">
+    
+    <!--<link rel="stylesheet"-->
+          <!--href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"/>-->
+</head>
+<body>
+
+<h1></h1>
+
+
+<input class="flatpickr" type="text"/>
+
+<!--<script data-main="../js/main" src="../js/require.js"></script>-->
+<script src="../js/require.js"></script>
+<script src="../js/main.js"></script>
+<script>
+    require(["jquery", "flatpickr"], function ($, flatpickr) {
+        $("h1").text("恭喜你！配置好了！");
+
+        flatpickr(".flatpickr", {
+            inline: true,
+            onDayCreate: function(dObj, dStr, fp, dElem){
+                
+            }
+        });
+    });
+</script>
+</body>
+</html>
