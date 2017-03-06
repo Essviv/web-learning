@@ -13,11 +13,11 @@
         paths: {
             func: "function_as_module"
         },
-        map:{
-            "math":{
+        map: {
+            "math": {
                 "go": "new"
             },
-            "cities":{
+            "cities": {
                 "go": "old"
             }
         }
@@ -31,6 +31,12 @@
             return a + "_" + b;
         }, "hello", "world"));
     });
+
+    function test(func, a, b) {
+        return func(a, b);
+    }
+
+    console.log(test((a, b) => a + "_" + b, "hello", "world"));
 </script>
 </body>
 </html>
